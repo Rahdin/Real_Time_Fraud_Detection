@@ -30,3 +30,19 @@ class FraudDetector:
             self.redis.expire(key, 60)
             
         return current_count > 3
+    
+
+def predict_anomaly(self, amount: float, risk_score: float) -> bool:
+        """
+        Uses Isolation Forest to detect mathematical outliers.
+        """
+        if not self.model:
+            return False
+            
+        # Format input for scikit-learn [amount, risk_score, current_hour]
+        hour = datetime.now().hour
+        features = np.array([[amount, risk_score, hour]])
+        
+        # Prediction: 1 is Normal, -1 is Anomaly
+        prediction = self.model.predict(features)
+        return prediction[0] == -1
