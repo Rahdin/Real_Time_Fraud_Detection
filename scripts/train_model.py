@@ -33,4 +33,4 @@ def train_dummy_model():
     logger.info(f"Model trained and saved to {model_path}")
 
 if __name__ == "__main__":
-    train_dummy_model(
+    train_dummy_model()
