@@ -1,3 +1,9 @@
+"""
+This file contains the Pydantic models used for request and response validation
+in the fraud detection FastAPI application.
+
+"""
+
 from pydantic import BaseModel, Field
 from datetime import datetime
 
@@ -8,7 +14,7 @@ class TransactionRequest(BaseModel):
     merchant_id: str
     timestamp: datetime = Field(default_factory=datetime.now)
     
-    # Feature needed for the ML model
+    
     merchant_risk_score: float = Field(..., ge=0, le=100)
 
 class FraudResult(BaseModel):
