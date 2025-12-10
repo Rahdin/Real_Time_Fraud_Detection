@@ -17,10 +17,26 @@ class FraudDetector:
         try:
             self.model = joblib.load("app/isolation_forest.joblib")
         except FileNotFoundError:
+            print("WARNING: Model file not found. ML features will be disabled.")
             self.model = None 
+
         
-        redis_host = "localhost"
-        self.redis = redis.Redis(host=redis_host, port=6379, db=0, decode_responses=True)
+        redis_url = os.getenv("REDIS_URL") 
+        
+        try:
+            if redis_url:
+               
+                self.redis = redis.from_url(redis_url, decode_responses=True, ssl_cert_reqs=None)
+            else:
+                
+                self.redis = redis.Redis(host="localhost", port=6379, db=0, decode_responses=True)
+                
+            
+            self.redis.ping()
+            
+        except redis.exceptions.ConnectionError:
+            print("WARNING: Redis connection failed. Velocity checks disabled.")
+           
 
     def check_velocity(self, user_id: str) -> bool:
        
