@@ -19,7 +19,7 @@ class FraudDetector:
         except FileNotFoundError:
             self.model = None 
         
-        redis_host = os.getenv("REDIS_HOST", "localhost")
+        redis_host = "localhost"
         self.redis = redis.Redis(host=redis_host, port=6379, db=0, decode_responses=True)
 
     def check_velocity(self, user_id: str) -> bool:
@@ -36,15 +36,15 @@ class FraudDetector:
         return current_count > 3
     
 
-def predict_anomaly(self, amount: float, risk_score: float) -> bool:
+    def predict_anomaly(self, amount: float, risk_score: float) -> bool:
     
-        if not self.model:
-            return False
+            if not self.model:
+                return False
             
        
-        hour = datetime.now().hour
-        features = np.array([[amount, risk_score, hour]])
+            hour = datetime.now().hour
+            features = np.array([[amount, risk_score, hour]])
         
     
-        prediction = self.model.predict(features)
-        return prediction[0] == -1
+            prediction = self.model.predict(features)
+            return prediction[0] == -1

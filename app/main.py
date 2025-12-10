@@ -1,15 +1,21 @@
+""" 
+This file serves as the entry point for the program. It sets up the FastAPI application,
+defines the endpoints for fraud detection analysis, and handles incoming requests from 
+client side applications. 
+
+"""
+
 from fastapi import FastAPI, HTTPException, Depends
 from app.schemas import TransactionRequest, FraudResult
 from app.detector import FraudDetector
 from datetime import datetime
 import logging
 
-# Initialize App and Logging
+
 app = FastAPI(title="Fraud Detection")
 logger = logging.getLogger("uvicorn")
 
-# Dependency Injection for the Detector
-# (Prevents reloading the model on every request)
+
 detector = FraudDetector()
 
 def get_detector():
@@ -25,12 +31,12 @@ async def analyze_transaction(
     reasons = []
     is_fraud = False
     
-    # Check 1: Velocity Rule (Redis)
+    
     if engine.check_velocity(tx.user_id):
         is_fraud = True
         reasons.append("HIGH_VELOCITY_TRIGGER")
         
-    # Check 2: ML Model (Isolation Forest)
+    
     if engine.predict_anomaly(tx.amount, tx.merchant_risk_score):
         is_fraud = True
         reasons.append("ML_ANOMALY_DETECTED")
