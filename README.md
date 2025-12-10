@@ -92,7 +92,7 @@ uvicorn app.main:app --reload
 The API will be live at http://127.0.0.1:8000
 
 🔌 API Usage
-You can test the API using the auto-generated FastAPI UI or via curl/PowerShell.
+You can test the API using the auto-generated Swagger UI or via curl/PowerShell.
 
 Interactive UI: Go to http://localhost:8000/docs
 
