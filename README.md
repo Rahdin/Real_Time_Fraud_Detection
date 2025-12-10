@@ -40,7 +40,4 @@ Response: A JSON verdict is returned (is_fraud: true/false).
 
 
 
-Why Fail-Open?
-
-The check_velocity logic is wrapped in a try/except block. If the Redis/Memurai database goes offline, the system defaults to allowing the transaction. In a banking context, Availability often takes precedence over strict security checks to prevent service outages for legitimate customers.
 
