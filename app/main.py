@@ -9,11 +9,11 @@ from fastapi import FastAPI, HTTPException, Depends
 from app.schemas import TransactionRequest, FraudResult
 from app.detector import FraudDetector
 from datetime import datetime
-import logging
+
 
 
 app = FastAPI(title="Fraud Detection")
-logger = logging.getLogger("uvicorn")
+
 
 
 detector = FraudDetector()
@@ -26,8 +26,7 @@ async def analyze_transaction(
     tx: TransactionRequest, 
     engine: FraudDetector = Depends(get_detector)
 ):
-    logger.info(f"Analyzing transaction {tx.transaction_id} for user {tx.user_id}")
-    
+   
     reasons = []
     is_fraud = False
     
